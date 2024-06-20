@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import { tripRouter } from "./controller";
+import { authRouter } from "./controller/Auth.controller";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.get("/", async (req, res, next) => {
 });
 
 app.use("/trips", tripRouter);
+app.use("/auth", authRouter);
 
 app.listen(3000, () => {
   console.log("App listening on the port 3000");

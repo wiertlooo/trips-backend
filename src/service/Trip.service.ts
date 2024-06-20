@@ -3,9 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const tripService = {
+  //get trip by id
   getTripById: async (id: number) => {
     return prisma.trip.findUnique({ where: { id } });
   },
+  //get users trips
   getTripsByUserId: async (userId: number) => {
     return prisma.trip.findMany({
       where: {
@@ -17,6 +19,7 @@ export const tripService = {
       },
     });
   },
+  //createTrip service
   createTrip: async (data: {
     title: string;
     description?: string;
