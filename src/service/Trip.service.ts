@@ -17,4 +17,17 @@ export const tripService = {
       },
     });
   },
+  createTrip: async (data: {
+    title: string;
+    description?: string;
+    creatorId: number;
+  }) => {
+    return prisma.trip.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        creatorId: data.creatorId,
+      },
+    });
+  },
 };

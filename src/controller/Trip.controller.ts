@@ -18,3 +18,17 @@ tripRouter.get("/user/:userId", async (req, res) => {
 
   res.json(trips);
 });
+
+tripRouter.post("/", async (req, res) => {
+  const { title, description, creatorId } = req.body;
+  try {
+    const newTrip = await tripService.createTrip({
+      title,
+      description,
+      creatorId,
+    });
+    res.status(201).json(newTrip);
+  } catch (e) {
+    res.status(500);
+  }
+});
