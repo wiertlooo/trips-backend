@@ -11,7 +11,7 @@ app.get("/", async (req, res, next) => {
   res.sendStatus(200);
 });
 
-app.use("/groups", tripRouter);
+app.use("/trips", tripRouter);
 
 app.listen(3000, () => {
   console.log("App listening on the port 3000");

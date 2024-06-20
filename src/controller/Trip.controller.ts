@@ -10,3 +10,11 @@ tripRouter.get("/:id", async (req, res) => {
 
   res.json(trip);
 });
+
+tripRouter.get("/user/:userId", async (req, res) => {
+  const userId = +req.params.userId;
+
+  const trips = await tripService.getTripsByUserId(userId);
+
+  res.json(trips);
+});
