@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  password     String
+  name         String
+  role         Role         @default(USER)
+  createdAt    DateTime     @default(now())
+  trips        Trip[]       @relation("TripCreator")
+  memberships  Membership[] @relation("UserMembership")
+  comments     Comment[]
+  photos       Photo[]
+}
+
+model Trip {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime     @default(now())
+  creator     User         @relation("TripCreator", fields: [creatorId], references: [id])
+  creatorId   Int
+  memberships Membership[] @relation("TripMembership")
+  comments    Comment[]
+  photos      Photo[]
+}
+
+model Membership {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation("UserMembership", fields: [userId], references: [id])
+  userId  Int
+  trip    Trip   @relation("TripMembership", fields: [tripId], references: [id])
+  tripId  Int
+  joinedAt DateTime @default(now())
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  tripId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model Photo {
+  id        Int      @id @default(autoincrement())
+  url       String
+  createdAt DateTime @default(now())
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  tripId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}
