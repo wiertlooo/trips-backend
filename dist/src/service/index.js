@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.groupService = void 0;
-var Group_service_1 = require("./Group.service");
-Object.defineProperty(exports, "groupService", { enumerable: true, get: function () { return Group_service_1.groupService; } });
+exports.authService = exports.tripService = void 0;
+var Trip_service_1 = require("./Trip.service");
+Object.defineProperty(exports, "tripService", { enumerable: true, get: function () { return Trip_service_1.tripService; } });
+var Auth_service_1 = require("./Auth.service");
+Object.defineProperty(exports, "authService", { enumerable: true, get: function () { return Auth_service_1.authService; } });

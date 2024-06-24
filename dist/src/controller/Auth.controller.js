@@ -35,29 +35,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-var express_1 = __importDefault(require("express"));
-var controller_1 = require("./controller");
-var Auth_controller_1 = require("./controller/Auth.controller");
-var cors_1 = __importDefault(require("cors"));
-var dotenv_1 = __importDefault(require("dotenv"));
-var app = (0, express_1.default)();
-dotenv_1.default.config();
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, cors_1.default)());
-app.get("/", function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        res.sendStatus(200);
-        return [2 /*return*/];
+exports.authRouter = void 0;
+var express_1 = require("express");
+var Auth_service_1 = require("../service/Auth.service");
+exports.authRouter = (0, express_1.Router)();
+exports.authRouter.post("/register", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, email, password, name, user, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, email = _a.email, password = _a.password, name = _a.name;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, Auth_service_1.authService.register(email, password, name)];
+            case 2:
+                user = _b.sent();
+                res.json(user);
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _b.sent();
+                res.status(400).json({ error: e_1.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
     });
 }); });
-app.use("/trips", controller_1.tripRouter);
-app.use("/auth", Auth_controller_1.authRouter);
-app.listen(5000, function () {
-    console.log("App listening on the port 3000");
-});
+exports.authRouter.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, email, password, _b, token, user, e_2;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _a = req.body, email = _a.email, password = _a.password;
+                _c.label = 1;
+            case 1:
+                _c.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, Auth_service_1.authService.login(email, password)];
+            case 2:
+                _b = _c.sent(), token = _b.token, user = _b.user;
+                res.json({ token: token, user: user });
+                return [3 /*break*/, 4];
+            case 3:
+                e_2 = _c.sent();
+                res.status(400).json({ error: e_2.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
